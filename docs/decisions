@@ -1,1 +1,27 @@
 
+---
+title: FX Hedge Framing — Aerospace EUR Receivable
+author: Kailani Phillips
+date: 2026-07-24
+scenario: aerospace
+firm: U.S. Aerospace Manufacturer
+stage: 1
+---
+
+**TO:** Chief Financial Officer
+**FROM:** Kailani Phillips
+**RE:** FX Hedge Recommendation — EUR 20,000,000 Receivable, 1-Year Settlement
+
+Our aerospace division is contracted to receive a **EUR 20,000,000** payment from a European customer in **one year**. The receivable is fixed in euros, but our costs, budgets, and reporting are all in USD — so the dollar value we ultimately book depends on where EURUSD sits at settlement, a rate we do not control and currently do not hedge.
+
+The risk is straightforward. Using the market's current one-year forward quote of **1.0935** as a reference, our proceeds today would translate to roughly **$21,870,000**. If EUR weakens to 1.00 by settlement — well within a normal year's trading range for this pair — proceeds fall to **$20,000,000**, a shortfall of nearly **$1.87 million** against the level the market currently prices as fair, with no change in our operating performance. A stronger euro would hand us a windfall, but a budget built on hope isn't a plan.
+
+Three hedge families are available, each with a different trade-off:
+
+- **Forward contract** — Lock in today's rate (1.0935) for the full amount, removing the uncertainty entirely. We give up any upside if EUR strengthens, and take on counterparty and margin obligations.
+- **Money-market hedge** — Borrow EUR today, convert to USD at spot, and invest — a synthetic forward built from our own credit and cash. Delivers the same certainty as a forward and is useful if forward pricing looks unattractive, but it uses borrowing capacity and adds operational complexity.
+- **Options (EUR put)** — Buy the right, not the obligation, to sell EUR at a strike near current levels. This sets a floor under our proceeds while keeping upside if EUR strengthens, but the premium is paid whether or not we ever use the hedge.
+
+I'm recommending we commit to a structured analysis rather than a decision today. Over the next four stages I will: specify the hedge model in detail (Stage 2), build and audit an AI-assisted workbook (Stage 3), populate it with live, sourced market data (Stage 4), and independently validate the results before delivering a final recommendation (Stage 5). I'm requesting approval to proceed with this analysis and will bring the completed recommendation back to you before any hedge is executed.
+
+Written with Claude
