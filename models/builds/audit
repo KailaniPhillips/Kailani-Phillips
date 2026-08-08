@@ -1,0 +1,43 @@
+Title
+
+Stage 3 Build Audit — Aerospace EUR Receivable Hedge Model
+Author
+
+Kailani Phillips
+Date
+
+2026-08-07
+Scenario
+
+aerospace
+Workbook
+
+models/builds/2026-08-07-Phillips-aerospace-model.xlsx
+Spec
+
+docs/specs/2026-07-31-Phillips-aerospace-spec.md
+Build Audit — Aerospace EUR Receivable Model
+
+The workbook was generated directly from the committed Stage 2 spec (all named ranges, formulas, and tab architecture as specified). This note documents three substantive findings from auditing the generated output against the spec's own validation rules (§7.3 / Auditability Checklist).
+Finding 1 — Parity check fails, as the spec predicted
+
+What I checked: The MoneyMarket tab's covered-interest-parity check (USD_MM vs. USD_FWD, tolerance 0.05% per the spec's Auditability Checklist).
+
+What I found: The check fails — USD_MM = $23,331,896.21 vs. USD_FWD = $21,870,000.00, a relative difference of 6.68%, far outside the 0.05% tolerance. The workbook's IF formula correctly flags this as FAIL.
+
+What I did: No formula fix was needed — this is not a defect. The spec (§4/§7.3) explicitly predicted this outcome: F0_in (1.0935) is a scenario-assigned placeholder set independently of S0_in (1.1505), R_USD (3.63%), and R_FC (2.25%), which were pulled from live sources on a different basis. I confirmed the check itself computes and displays correctly, and left the documented flag in place rather than forcing a false pass. This must be re-verified once Stage 4 replaces all four inputs with mutually consistent, same-timestamp live data.
+Finding 2 — Color-convention conflict between table headers and named outputs
+
+What I checked: Scanned every cell colored gray (#D9D9D9, the "Outputs" color per the Legend/Key tab) across all sheets, to confirm gray was used only for genuine named output cells.
+
+What I found: The first draft applied the same gray fill to column header rows (e.g., "Named range," "S_T," "Overall Winner") on the Inputs and Sensitivity tabs, alongside real outputs like USD_FWD and the parity PASS/FAIL cell. This diluted the Legend/Key's own definition — a reader couldn't tell, by color alone, whether a gray cell was a header label or an actual named result.
+
+What I did: Introduced a separate, distinct header color (light UH-Green tint, #E6F2EF) for all column header rows, and reserved gray exclusively for true named outputs (
+USD_FWD, USD_MM, the parity result, the put/call baseline proceeds, the continuity check, and the sensitivity winner labels). Rebuilt and re-verified zero formula errors after the fix.
+Finding 3 — Sensitivity table recalculation test
+
+What I checked: Whether the Sensitivity tab's grid and chart are genuinely formula-driven and recalculate when an Inputs-tab value changes, rather than being frozen values that only look like formulas.
+
+What I found: On a disposable test copy, I changed S0_in from 1.1505 to 1.2000 and recalculated. The baseline row (n=0) correctly moved: S_T updated to 1.2000, No Hedge proceeds updated from $23,010,000 to $24,000,000 (= 1.2000 × FC_AMT, correct), and Option (Put) proceeds updated from $22,616,014.42 to $23,606,014.42 (correctly switching from the flat-floor regime to the S_T-tracking regime once spot moved above K_PUT). All values matched hand-calculated expectations.
+
+What I did: Confirmed this on the test copy only; the submitted workbook retains the original placeholder values (S0_in = 1.1505) unchanged. No fix was needed — this test confirmed the grid is correctly formula-driven, not a defect.
